@@ -2,10 +2,23 @@ import streamlit as st
 import pyrebase
 from google.cloud import firestore
 
+ig_signup_version = "1.0.3"
 signup_form_submitted = False
 
+st.set_page_config(
+    page_title=f"IntergalacticPro Signup (v{ig_signup_version})",
+    page_icon=":rocket:",
+    layout="centered",
+    menu_items={
+        'Get help': 'mailto:support@neuralbytes.net?subject=Need%20Help%20with%20IntergalacticPro',
+        'Report a bug': 'mailto:bugs@neuralbytes.net?subject=IntergalacticPro%20Bug%20Report',
+        'About': '''### The signup page for IntergalacticPro: A space and rockets expert who is highly knowledgeable, clear, concise, and friendly. \n
+        https://intergalacticpro.neuralbytes.net'''
+    }
+)
+
 st.title("IntergalacticPro Signup Page")
-st.write("[Submit a bug report](mailto:feedback@neuralbytes.net?subject=IntergalacticPro%20Feedback)")
+st.write("[Help improve IntergalacticPro](mailto:feedback@neuralbytes.net?subject=IntergalacticPro%20Feedback)")
 
 firebaseConfig = {
     'apiKey': st.secrets.firebaseConfig['apiKey'],
@@ -21,7 +34,6 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
 db = firestore.Client.from_service_account_json("intergalacticpro-firebase-key.json")
-
 
 def sign_up():
     """Returns `True` if the user had a correct password."""
